@@ -77,8 +77,21 @@ def filtro_mediana(imagenes):
     return median_image
 
    
-def filtro_gauss():
-    pass  
+def dog_filter(image, s = 1):
+    filtro = []
+    N, M = image.shape
+    deg_image = np.zeros((N, N))
+    for i in range(-3*s, 3*s +1):
+        dog = round(- (i * exp(- i ** 2 / (2 * s ** 2))) / ((2 * pi) ** (1/2) * s ** 3), 2)
+        filtro.append(dog)
+    mask_x = np.array(filtro).reshape(1,7)
+    mask_y = np.transpose(mask_x)
+    image_x = signal.convolve2d(image, mask_x, mode = "same")
+    image_y = signal.convolve2d(image, mask_y, mode = "same")
+    deg_image = image_x + image_y
+
+
+    return deg_image
 
 imagenes = cargar_imagenes()
 
