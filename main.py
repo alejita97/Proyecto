@@ -5,6 +5,8 @@
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+from math import exp, pi
+from scipy import signal
 
 ###################################################################################
 ###                           CARGANDO IMAGENES                                 ###
@@ -84,7 +86,7 @@ def dog_filter(image, s = 1):
     for i in range(-3*s, 3*s +1):
         dog = round(- (i * exp(- i ** 2 / (2 * s ** 2))) / ((2 * pi) ** (1/2) * s ** 3), 2)
         filtro.append(dog)
-    mask_x = np.array(filtro).reshape(1,7)
+    mask_x = np.array(filtro).reshape(1, 6*s + 1)
     mask_y = np.transpose(mask_x)
     image_x = signal.convolve2d(image, mask_x, mode = "same")
     image_y = signal.convolve2d(image, mask_y, mode = "same")
@@ -94,12 +96,14 @@ def dog_filter(image, s = 1):
     return deg_image
 
 imagenes = cargar_imagenes()
+gray_images = escalas_de_grises(imagenes)
+
 
 plt.figure()
 plt.subplot(1, 2, 1)
-plt.imshow(imagenes["imagen 6"][0])
+plt.imshow(gray_images[37], cmap = "gray")
 plt.title("Imagen Original")
 plt.subplot(1, 2, 2)
-plt.imshow(imagenes["imagen 19"][1])
-plt.title("Imagen Segmentada ideal")
+plt.imshow(dog_filter(gray_images[37], s = 1), cmap = "gray")
+plt.title("1")
 plt.show()
