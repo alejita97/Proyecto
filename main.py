@@ -76,10 +76,10 @@ def filtro_mediana(imagenes):
         median_image.append(cv2.medianBlur(imagen, n))
     return median_image
 
-'''    
+   
 def filtro_gauss():
     pass  
-'''
+
 imagenes = cargar_imagenes()
 
 plt.figure()
