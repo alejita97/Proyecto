@@ -145,3 +145,9 @@ def paint(image):
         if contador_nowhite == N*M:
             hay_255 = False
     return image
+imagenes = cargar_imagenes()
+gray_images = escalas_de_grises(imagenes)
+val2 = filters.threshold_otsu(gray_images[37])
+final1 = cv2.Canny(gray_images[37], val2/2, val2)
+clean_image = pass_mask(gray_images[37], final1)
+pintada = paint(clean_image)
