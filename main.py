@@ -107,3 +107,41 @@ plt.subplot(1, 2, 2)
 plt.imshow(dog_filter(gray_images[37], s = 1), cmap = "gray")
 plt.title("1")
 plt.show()
+######### Pasar Máscara ########### 
+
+def pass_mask(image, mask):
+    N, M = image.shape
+    new_image = np.zeros((N,M))
+    for i in range(N):
+        for j in range(M):
+            if mask[i, j] == 255:
+                new_image[i, j] = 255
+            else:
+                new_image[i, j] = image[i, j]
+    return new_image
+    
+######### Re - Pintar la imagen ############
+
+def paint(image):
+    N, M = image.shape
+    hay_255 = True
+    while hay_255:
+        contador_nowhite = 0
+        for i in range(N):
+            for j in range(M):
+                if image[i, j] == 255 and i != 0 and i != N - 1\
+                and j != 0 and j != M - 1:
+                    lista_veci = []
+                    suma = 0
+                    for k in range(i - 1, i + 2):
+                        for z in range(j - 1, j + 2):
+                            if image[k, z] != 255:
+                                lista_veci.append(image[k, z])
+                    for elementos in lista_veci:
+                        suma += elementos
+                    image[i, j] = suma / len(lista_veci)
+                else:
+                    contador_nowhite += 1
+        if contador_nowhite == N*M:
+            hay_255 = False
+    return image
