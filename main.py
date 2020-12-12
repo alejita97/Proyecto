@@ -47,7 +47,30 @@ def calculando_error(ideal, real):
     TPR = TP / (TP+FN)
     FPR = FP/(FP+TN)
     return TPR, FPR
-              
+###### Función Mostrar ###########
+ def mostrar(F, G, R, coordenada ,mode = "moon"):
+    e = error(F,R)
+    plt.figure()
+    plt.subplot(1, 3, 1)
+    plt.imshow(F, cmap = "gray")
+    plt.title("Imagen Original")
+    plt.subplot(1, 3, 2)
+    plt.imshow(G, cmap = "gray")
+    plt.title("Imagen Degradada")
+    plt.subplot(1, 3, 3)
+    plt.imshow(R, cmap = "gray")
+    plt.title(f"Imagen Restaurada {mode}")
+    plt.text(coordenada[0], coordenada[1], f"El error porcentual es: {e} %")
+    plt.show()
+############ CANAL ###########
+def channel_image(imagen, channel):
+    b, g, r = cv2.split(imagen)
+    if channel == "red":
+        return r
+    elif channel == "green":
+        return g
+    elif channel == "blue":
+        return b             
                 
   
 ######### Función Segmentar ###########
